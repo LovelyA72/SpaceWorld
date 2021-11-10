@@ -5,16 +5,16 @@
 #define WORLD_MATLAB_MY_FUNCTIONS_H_
 
 
-// ƒnƒ~ƒ“ƒO‘‹
+// ãƒãƒŸãƒ³ã‚°çª“
 void Hamming_window(double *w, int N);
 
-// ƒnƒjƒ“ƒO‘‹
+// ãƒãƒ‹ãƒ³ã‚°çª“
 void Hanning_window(double *w, int N);
 
-// ƒiƒbƒg[ƒ‹‘‹
+// ãƒŠãƒƒãƒˆãƒ¼ãƒ«çª“
 void Nuttall_window(double *w, int N);
 
-// ”z—ñt‚ğŒ³‚É”z—ñc‚ğì‚ésincŠÖ”
+// é…åˆ—tã‚’å…ƒã«é…åˆ—cã‚’ä½œã‚‹sincé–¢æ•°
 void sinc(double *t, int tNum, double *c);
 
 // Comb Sort in ascending order
@@ -69,34 +69,34 @@ void interp1natural_clip(double *x, double *y, int inNum,
 void interp1Catmull_Rom_clip(double *x, double *y, int inNum,
                              double *xo, int outNum, double *yo);
 
-// ƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ“™ŠÔŠu‚ÉŒÀ’è‚µA‚‘¬‚É“®ì‚·‚é’¼ü•âŠÔA‹æŠÔŠO‚ÍƒNƒŠƒbƒv
-// Œ³ƒf[ƒ^‚ÌƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ 1 ‚ÉŒÀ’è‚µ‚Ä‚¢‚é
+// ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ç­‰é–“éš”ã«é™å®šã—ã€é«˜é€Ÿã«å‹•ä½œã™ã‚‹ç›´ç·šè£œé–“ã€åŒºé–“å¤–ã¯ã‚¯ãƒªãƒƒãƒ—
+// å…ƒãƒ‡ãƒ¼ã‚¿ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ 1 ã«é™å®šã—ã¦ã„ã‚‹
 void itrp1Q_clip(double offset, double *y, int inNum, double stride,
                  int outNum, double *yo);
 
-// ƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ“™ŠÔŠu‚ÉŒÀ’è‚µA‚‘¬‚É“®ì‚·‚é2PointCubic•âŠÔA‹æŠÔŠO‚ÍƒNƒŠƒbƒv
-// Œ³ƒf[ƒ^‚ÌƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ 1 ‚ÉŒÀ’è‚µ‚Ä‚¢‚é
+// ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ç­‰é–“éš”ã«é™å®šã—ã€é«˜é€Ÿã«å‹•ä½œã™ã‚‹2PointCubicè£œé–“ã€åŒºé–“å¤–ã¯ã‚¯ãƒªãƒƒãƒ—
+// å…ƒãƒ‡ãƒ¼ã‚¿ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ 1 ã«é™å®šã—ã¦ã„ã‚‹
 void itrp1Q2PC_clip(double offset, double *y, int inNum, double stride,
                     int outNum, double *yo);
 
-// ƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ“™ŠÔŠu‚ÉŒÀ’è‚µA‚‘¬‚É“®ì‚·‚éƒgƒŠƒ€ƒXƒvƒ‰ƒCƒ“•âŠÔA‹æŠÔŠO‚ÍƒNƒŠƒbƒv
-// Œ³ƒf[ƒ^‚ÌƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ 1 ‚ÉŒÀ’è‚µ‚Ä‚¢‚é
-//      —¼’[‚Ì‹æŠÔ‚ÍƒNƒŠƒbƒv‚É‹ß‚Ã‚­‚æ‚¤‚Éİ’è‚µ‚Ä‚¢‚é
+// ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ç­‰é–“éš”ã«é™å®šã—ã€é«˜é€Ÿã«å‹•ä½œã™ã‚‹ãƒˆãƒªãƒ ã‚¹ãƒ—ãƒ©ã‚¤ãƒ³è£œé–“ã€åŒºé–“å¤–ã¯ã‚¯ãƒªãƒƒãƒ—
+// å…ƒãƒ‡ãƒ¼ã‚¿ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ 1 ã«é™å®šã—ã¦ã„ã‚‹
+//      ä¸¡ç«¯ã®åŒºé–“ã¯ã‚¯ãƒªãƒƒãƒ—ã«è¿‘ã¥ãã‚ˆã†ã«è¨­å®šã—ã¦ã„ã‚‹
 void itrp1Qtrim_clip(double offset, double *y, int inNum, double stride,
                             int outNum, double *yo);
 
-// ƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ“™ŠÔŠu‚ÉŒÀ’è‚µA‚‘¬‚É“®ì‚·‚éƒXƒvƒ‰ƒCƒ“•âŠÔA‹æŠÔŠO‚ÍƒNƒŠƒbƒv
-// Œ³ƒf[ƒ^‚ÌƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ 1 ‚ÉŒÀ’è‚µ‚Ä‚¢‚é
+// ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ç­‰é–“éš”ã«é™å®šã—ã€é«˜é€Ÿã«å‹•ä½œã™ã‚‹ã‚¹ãƒ—ãƒ©ã‚¤ãƒ³è£œé–“ã€åŒºé–“å¤–ã¯ã‚¯ãƒªãƒƒãƒ—
+// å…ƒãƒ‡ãƒ¼ã‚¿ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ 1 ã«é™å®šã—ã¦ã„ã‚‹
 void itrp1Qspline_clip(double offset, double *y, int inNum, double stride,
                        int outNum, double *yo);
 
-// ƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ“™ŠÔŠu‚ÉŒÀ’è‚µA‚‘¬‚É“®ì‚·‚é©‘RƒXƒvƒ‰ƒCƒ“•âŠÔA‹æŠÔŠO‚ÍƒNƒŠƒbƒv
-// Œ³ƒf[ƒ^‚ÌƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ 1 ‚ÉŒÀ’è‚µ‚Ä‚¢‚é
+// ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ç­‰é–“éš”ã«é™å®šã—ã€é«˜é€Ÿã«å‹•ä½œã™ã‚‹è‡ªç„¶ã‚¹ãƒ—ãƒ©ã‚¤ãƒ³è£œé–“ã€åŒºé–“å¤–ã¯ã‚¯ãƒªãƒƒãƒ—
+// å…ƒãƒ‡ãƒ¼ã‚¿ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ 1 ã«é™å®šã—ã¦ã„ã‚‹
 void itrp1Qnatural_clip(double offset, double *y, int inNum, double stride,
                         int outNum, double *yo);
 
-// ƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ“™ŠÔŠu‚ÉŒÀ’è‚µA‚‘¬‚É“®ì‚·‚éCatmull-RomƒXƒvƒ‰ƒCƒ“•âŠÔA‹æŠÔŠO‚ÍƒNƒŠƒbƒv
-// Œ³ƒf[ƒ^‚ÌƒTƒ“ƒvƒŠƒ“ƒOŠÔŠu‚ğ 1 ‚ÉŒÀ’è‚µ‚Ä‚¢‚é
+// ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ç­‰é–“éš”ã«é™å®šã—ã€é«˜é€Ÿã«å‹•ä½œã™ã‚‹Catmull-Romã‚¹ãƒ—ãƒ©ã‚¤ãƒ³è£œé–“ã€åŒºé–“å¤–ã¯ã‚¯ãƒªãƒƒãƒ—
+// å…ƒãƒ‡ãƒ¼ã‚¿ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°é–“éš”ã‚’ 1 ã«é™å®šã—ã¦ã„ã‚‹
 void itrp1QCatmull_Rom_clip(double offset, double *y, int inNum, double stride,
                             int outNum, double *yo);
 
