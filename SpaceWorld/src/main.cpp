@@ -1318,12 +1318,12 @@ int main(int argc, char* argv[])
 	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	int i, j;
-	char* thisChar;
-	for (i = 1; i < argc; i++) { // argv[0] may be the file name (no guarantee, see Peter M's comment)
-		thisChar = argv[i]; // If the parameter is "abc", thisChar = 'a'
-		printf("%s ", thisChar);
-	}
-	printf("\n");
+	//char* thisChar;
+	//for (i = 1; i < argc; i++) { // argv[0] may be the file name (no guarantee, see Peter M's comment)
+	//	thisChar = argv[i]; // If the parameter is "abc", thisChar = 'a'
+	//	printf("%s ", thisChar);
+	//}
+	//printf("\n");
 	//*
 	if (argc <= 4)
 	{
