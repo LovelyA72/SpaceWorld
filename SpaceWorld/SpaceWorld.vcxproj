@@ -123,7 +123,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>ren x64\Debug\SpaceWorld.exe SpaceWorld_win64.exe</Command>
+      <Command>rename "$(TargetPath)" "SpaceWorld_win64.exe"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,7 +142,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>ren x64\Release\SpaceWorld.exe SpaceWorld_win64.exe</Command>
+      <Command>rename "$(TargetPath)" "SpaceWorld_win64.exe"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
