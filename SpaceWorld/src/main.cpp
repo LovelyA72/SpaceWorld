@@ -47,6 +47,8 @@
 #include "audio_io.h"
 
 #include <math.h>
+#include <string>
+using namespace std;
 
 
 // 分析シフト量 [msec]
@@ -827,8 +829,15 @@ int getDIOParam(double x[], int signalLen, int fs, double framePeriod, double* p
 	{
 		//	    utauavgf0 = getavgUTAUfrq(filename);
 		utauavgf0 = getUTAUfrq(filename, tLen, fs, FRAMEPERIOD, utauf0);
+		if (utauavgf0 == 0.0)
+		{
+			printf("ERROR: No frq file found!");
+			//If StAkira can implement my suggestion, this -60 error code will be useful
+			exit(-60);
+		}
 		if (utauavgf0 < FLOOR_F0) return EXIT_FAILURE;
 		Dio(x, signalLen, fs, t, f0, 0);
+		printf("%d", f0[0]);
 		avgf0 = getFreqAvg(f0, tLen);
 		if (0.95 * utauavgf0 > avgf0 || avgf0 > 1.05 * utauavgf0)
 			avgf0 = utauavgf0;
@@ -841,7 +850,7 @@ int getDIOParam(double x[], int signalLen, int fs, double framePeriod, double* p
 	}
 	else
 	{
-		fprintf(stderr, " メモリーが確保できません。\n");
+		fprintf(stderr, "Memory cannot be secured. \n");
 		if (t) free(t);
 		if (f0) free(f0);
 		if (refined_f0) free(refined_f0);
@@ -862,10 +871,8 @@ int writeDIOParam(int signalLen, int fs, int tLen, const char* filename, double 
 	char fname1[512];
 	makeFilename(filename, ".dio", fname1);
 
-	DWORD elapsedTime;
 
 	printf("write .dio");
-	elapsedTime = timeGetTime();
 
 	//FILE *ft = fopen("dio0.txt", "wt");
 	FILE* f = fopen(fname1, "wb");
@@ -875,10 +882,11 @@ int writeDIOParam(int signalLen, int fs, int tLen, const char* filename, double 
 		fwrite(&signalLen, sizeof(int), 1, f);
 		fwrite(&fs, sizeof(int), 1, f);
 		fwrite(&tLen, sizeof(int), 1, f);
-		int i;
+		int i = 0;
 		for (i = 0; i < tLen; i++)
 		{
 			int un;
+			int test = f0[0];
 			if ((un = _fpclass(f0[i]) & 0x0087) != 0)//NaN,+Inf,-Inf,denormalを除外する
 			{
 #ifdef _DEBUG
@@ -892,8 +900,6 @@ int writeDIOParam(int signalLen, int fs, int tLen, const char* filename, double 
 		}
 		fclose(f);
 	}
-
-	printf(": %d [msec]\n", timeGetTime() - elapsedTime);
 	return 0;
 }
 void freeSpecgram(double** spec, int n)
@@ -1312,7 +1318,12 @@ int main(int argc, char* argv[])
 	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	int i, j;
-
+	char* thisChar;
+	for (i = 1; i < argc; i++) { // argv[0] may be the file name (no guarantee, see Peter M's comment)
+		thisChar = argv[i]; // If the parameter is "abc", thisChar = 'a'
+		printf("%s ", thisChar);
+	}
+	printf("\n");
 	//*
 	if (argc <= 4)
 	{
