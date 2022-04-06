@@ -831,7 +831,7 @@ int getDIOParam(double x[], int signalLen, int fs, double framePeriod, double* p
 		utauavgf0 = getUTAUfrq(filename, tLen, fs, FRAMEPERIOD, utauf0);
 		if (utauavgf0 == 0.0)
 		{
-			printf("ERROR: No frq file found!");
+			fprintf(stderr, "ERROR: No frq file found!\n");
 			//If StAkira can implement my suggestion, this -60 error code will be useful
 			exit(-60);
 		}
