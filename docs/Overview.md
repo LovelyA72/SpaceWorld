@@ -26,6 +26,8 @@ Most SW4U behavior is in `main.cpp`. A normal run follows these steps:
 
 The analysis frame period is fixed in `main.cpp` at 256 samples at 44.1 kHz, which is about 5.805 milliseconds. Several calculations and cache formats assume this value.
 
+> KSR here! That 5.805 ms frame period is baked into timing and cache behavior. If you change it, please treat the cache format and every frame-to-time calculation as part of the same change!
+
 ## Repository map
 
 ### Root files
@@ -101,6 +103,8 @@ SpaceWorld_win64.exe input output note velocity flags offset length fixed cutoff
 
 Only the first four values after the executable are required by the argument count check. Later values are optional in C++ but are positional, so callers must provide placeholders for earlier values when they want to set a later one.
 
+> KSR here! These arguments are positional, so don’t skip an earlier one just because you only want a later option! Give it a placeholder, or every argument after it will slide into the wrong slot. Total chaos~
+
 | Position | Name | Meaning |
 | ---: | --- | --- |
 | 1 | `input` | Input WAV or AIFF path. |
@@ -138,6 +142,8 @@ Example:
 
 This example assumes that a compatible UTAU frequency file exists for `input.wav` if valid SpaceWorld analysis caches do not already exist.
 
+> KSR here, again! Capital G is recognized but doesn’t actually do anything yet. (You don't want me, such a cute lady, to growl! Don't ya?) Lowercase gN is the working timbre flag, so mind the capitalization!
+
 ## Input, output, and sidecar files
 
 ### Audio
@@ -150,6 +156,8 @@ The active reader accepts:
 Stereo is mixed down by averaging the left and right channels.
 
 The writer always stores mono 16-bit sample values. However, it currently puts the input bit depth into parts of the WAV header. In practice, use 16-bit input when testing normal resampler behavior until this header bug is fixed.
+
+> KSR here! Please use 16-bit input for now, okay? SW4U always writes 16-bit samples, but the header still copies the input bit depth. Using 24-bit or float input may create a weird WAV file! :ksr_nooo:
 
 ### UTAU frequency file
 
@@ -174,9 +182,13 @@ For `voice.wav`, these are `voice.dio`, `voice.ctspec`, and `voice.d4c`.
 
 All three must load successfully for the fast cached path. The cache checks stored dimensions, sample rate, and input sample count, but it does not compare file timestamps or a content hash. Use the `R` flag after changing audio while keeping the same length and sample rate.
 
+> KSR here! Changed the source audio but kept the same sample rate and length? Use the R flag! The cache can’t tell that the actual audio changed, so it may happily reuse stale analysis. Sneaky, right?
+
 These generated files are not covered by a special rule in `.gitignore`. Avoid committing voice data and analysis caches unless they are intentional test fixtures.
 
 ## Testing and validation
+
+> KSR here! We don’t have automated tests yet, so a successful build isn’t enough. Please listen to the result and check its duration, pitch, silence, clipping, and stretch boundaries before declaring victory!
 
 There is currently no automated test suite. CI only confirms that the Release solution builds on `windows-latest`.
 
