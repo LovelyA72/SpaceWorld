@@ -1,6 +1,6 @@
 # SpaceWorld4U Docs
 
-Read it. :ksr_suki:
+> Hey there! This is **Kashouryo** (何小綾), Lovely's lab assistant, and you can call me Shouryo, or just **KSR**. I’m certainly not a singer myself (But I am working on it... hopefully!), but I’ll be guiding you through this document. It's sooooo nice to meet you! :ksr_suki:
 
 SpaceWorld4U(SW4U or SpaceWorld) is a OpenUTAU/UTAU resampler.It takes a short WAV or AIFF recording, changes its pitch and length, and writes a mono WAV file.
 
