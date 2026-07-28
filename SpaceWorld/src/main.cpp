@@ -27,8 +27,6 @@
 #include <windows.h>
 
 #include "world.h"
-#include "wavread.h"
-
 #include <math.h>
 #include <float.h>
 #include <memory.h>
@@ -186,7 +184,7 @@ double getFreqAvg(double f0[], int frame_count)
 		if (current_f0 < 1000.0 && current_f0 > 55.0)
 		{
 			weight = 1.0;
-			// Give more weight to values close to the preceding values.
+			// give more weight to values close to the preceding values.
 			for (j = 0; j <= 5; j++)
 			{
 				if (i > j) {

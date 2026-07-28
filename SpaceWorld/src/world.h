@@ -48,19 +48,6 @@ void star(double* x, int xLen, int fs, double* timeAxis, double* f0,
 	double** specgram);
 void getMinimumPhaseSpectrum(double* inputSpec, fft_complex* spectrum, fft_complex* cepstrum, int fftl);
 
-// 非周期性指標推定法 PLATINUM : 名称未定
-void platinum(double* x, int xLen, int fs, double* timeAxis, double* f0, double** specgram,
-	double** residualSpecgram);
-void pt100(double* x, int xLen, int fs, double* timeAxis, double* f0,
-	double** residualSpecgram);
-
-//tn_fnds v0.0.3 にて追加
-int pt101(double* x, int xLen, int fs, double* timeAxis, double* f0,
-	double*** residualSpecgram, int** residualSpecgramLength, int* residualSpecgramIndex);
-
-//tn_fnds v0.0.4 にて追加
-void PulseResidualWindow(double** residualSpecgram, int* residualSpecgramLength, int pCount);
-
 // WORLD Synthesis
 //void synthesis(double *f0, int tLen, double **specgram, double **residualSpecgram, int fftl, double framePeriod, int fs,
 //			   double *synthesisOut, int xLen);

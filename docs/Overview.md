@@ -46,7 +46,6 @@ The analysis frame period is fixed in `main.cpp` at 256 samples at 44.1 kHz, whi
 | --- | --- |
 | `SpaceWorld/src/main.cpp` | CLI parsing, cache handling, analysis orchestration, time/pitch transformation, effects, synthesis, and WAV writing. Start here when tracing program behavior. |
 | `SpaceWorld/src/audio_io.cpp/.h` | Active WAV/AIFF reader. Stereo input is averaged to mono. |
-| `SpaceWorld/src/wavread.cpp/.h` | Older WAV reader. It is compiled but is not used by the current main path. |
 | `SpaceWorld/src/getWorldValues77.cpp/.h` | Frame, sample, time, frequency, and FFT-size helper functions. |
 | `SpaceWorld/src/matlabfunctions.cpp` | Math and interpolation helpers originally modeled on MATLAB functions. |
 | `SpaceWorld/src/matlabmyfunctions.cpp/.h` | More interpolation, windowing, sorting, and numeric helpers. |
@@ -65,9 +64,6 @@ The analysis frame period is fixed in `main.cpp` at 256 samples at 44.1 kHz, whi
 | `SpaceWorld/src/fft.cpp` | Bundled Ooura FFT implementation and WORLD-compatible wrappers. |
 | `SpaceWorld/src/world/*.h` | Public declarations and constants used by the newer WORLD source files. |
 | `SpaceWorld/src/star.cpp` | Older STAR analysis code. The current runtime uses its FFT-size helper but uses CheapTrick for analysis. |
-| `SpaceWorld/src/platinum.cpp` | Older PLATINUM residual analysis code. It is compiled but is not called by the current main path. |
-
-`dio(old).cpp` and `synthesis (old).cpp` are kept as reference snapshots. They are deliberately not listed in the Visual Studio project and are not compiled.
 
 ## Building
 
@@ -216,7 +212,6 @@ When adding automated tests, small tests for note parsing, pitch-bend decoding, 
 - File names are copied into fixed-size C buffers. Long paths and unchecked writes are a known risk.
 - Some comments are Japanese, and some older comments have damaged character encoding. Check the code itself before relying on an unclear comment.
 - New `.cpp` or `.h` files must be added to `SpaceWorld.vcxproj`; simply placing them under `src` does not make Visual Studio compile them.
-- The current and old implementations have similar symbols. Do not add `dio(old).cpp` or `synthesis (old).cpp` to the build unless the duplicate definitions are intentionally resolved.
 - Cache formats are raw native C/C++ values with no general versioning layer. Changing types, dimensions, frame timing, or compression requires a cache compatibility plan.
 - Signal-processing arrays use `0.0` F0 for unvoiced frames. Preserve that convention when changing interpolation or pitch logic.
 

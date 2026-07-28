@@ -158,17 +158,14 @@ rename "$(TargetPath)" "SpaceWorld_win64.exe"</Command>
     <ClCompile Include=".\src\main.cpp" />
     <ClCompile Include=".\src\matlabfunctions.cpp" />
     <ClCompile Include=".\src\matlabmyfunctions.cpp" />
-    <ClCompile Include=".\src\platinum.cpp" />
     <ClCompile Include=".\src\star.cpp" />
     <ClCompile Include=".\src\stonemask.cpp" />
     <ClCompile Include=".\src\synthesis.cpp" />
-    <ClCompile Include=".\src\wavread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include=".\src\audio_io.h" />
     <ClInclude Include=".\src\getWorldValues77.h" />
     <ClInclude Include=".\src\matlabmyfunctions.h" />
-    <ClInclude Include=".\src\wavread.h" />
     <ClInclude Include=".\src\world.h" />
     <ClInclude Include=".\src\world\cheaptrick.h" />
     <ClInclude Include=".\src\world\common.h" />
@@ -177,7 +174,6 @@ rename "$(TargetPath)" "SpaceWorld_win64.exe"</Command>
     <ClInclude Include=".\src\world\dio.h" />
     <ClInclude Include=".\src\world\fft.h" />
     <ClInclude Include=".\src\world\macrodefinitions.h" />
-    <ClInclude Include=".\src\world\matlabfunctions.h" />
     <ClInclude Include=".\src\world\stonemask.h" />
     <ClInclude Include=".\src\world\synthesis.h" />
   </ItemGroup>

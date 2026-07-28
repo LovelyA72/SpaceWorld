@@ -14,7 +14,6 @@
 #include <math.h>
 
 #include "audio_io.h"
-//#include "matlabfunctions.h"
 
 #if (defined (__WIN32__) || defined (_WIN32)) && !defined (__MINGW32__)
   #include <windows.h>
@@ -27,30 +26,18 @@
 
 namespace {
 
-/****************************************************
- *
- * �@����CPU�����g���^�r�b�O�G���f�B�A���ł��邩�ǂ����Ɋ֌W�Ȃ�
- * �v�Z������@��v�������̂ŁA�������g�����Ƃɂ����B
- *
- * �@���Ȃ݂�CPU�̓��g���^�r�b�O�G���f�B�A���ȊO�ɂ�F�X�ȕ��т�����
- * �炵���̂ł����A����Ƃ�������тɑΉ����Ă���͂��B��
- *
- */
+// read and write bytes explicitly so they work
+// on both little-endian and big-endian hosts
 
-/****************************************************
- *
- * �@aiff�̏ꍇ�̓^�O�`�����N�̃T�C�Y�ɊԈ�����l�������Ă鎖������
- * �̂ł͖����A�`�����N�͕K��2�o�C�g�ŃA���C������Ă�炵��
- * ������̃\�[�X�R�[�h�Q�Ƃ����Ă��������܂���
- *      http://code.google.com/p/bitspersampleconv2/
- *      http://src.gnu-darwin.org/
- *
- * �����Ă���Șb�����̂ŁAwave�ɂ�t���Ă���܂�
- *      http://www.kk.iij4u.or.jp/~kondo/wave/
- *
- * ���������Ƃ�
- *
- */
+// AIFF and WAVE chunks are aligned to two-byte boundaries. Odd-sized chunk
+// therefore has a padding byte after its data. That byte is not included in
+// the chunk's declared size.
+//
+// references:
+//  http://code.google.com/p/bitspersampleconv2/
+//  http://src.gnu-darwin.org/
+//  http://www.kk.iij4u.or.jp/~kondo/wave/
+ 
 
 bool CheckLittleEndian(void)
 {
