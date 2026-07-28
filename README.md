@@ -4,6 +4,8 @@
 | ----------- | ----------- |
 | Windows | ![windows-status](https://github.com/LovelyA72/SpaceWorld/actions/workflows/msbuild.yml/badge.svg)  | 
 
+SpaceWorld is an OpenUTAU/UTAU resampler
+
 ## License
 SpaceWorld (SW4U) is licensed under the GNU General Public License 3.0
 

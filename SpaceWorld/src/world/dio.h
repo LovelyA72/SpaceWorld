@@ -36,6 +36,15 @@ typedef struct {
 //   f0                   : F0 contour.
 //-----------------------------------------------------------------------------
 void Dio(const double* x, int x_length, int fs, double* temporal_positions, double* f0, int flag_M);
+
+//-----------------------------------------------------------------------------
+// DioWithFramePeriod() runs DIO with the requested frame shift.
+//
+// Input and output are the same as Dio(), with this additional input:
+//   frame_period   : Frame shift [msec]
+//-----------------------------------------------------------------------------
+void DioWithFramePeriod(const double* x, int x_length, int fs,
+    double frame_period, double* temporal_positions, double* f0, int flag_M);
 //-----------------------------------------------------------------------------
 // InitializeDioOption allocates the memory to the struct and sets the
 // default parameters.

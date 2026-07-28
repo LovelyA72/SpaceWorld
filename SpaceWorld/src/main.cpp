@@ -206,6 +206,109 @@ double getFreqAvg(double f0[], int frame_count)
 	return weighted_sum;
 }
 
+int hasUTAUfrq(char* input_name)
+{
+	char frq_name[512];
+	strcpy(frq_name, input_name);
+	strcat(frq_name, ".frq");
+
+	FILE* fp = fopen(frq_name, "rb");
+	if (NULL == fp) {
+		strcpy(frq_name, input_name);
+		char* extension = strrchr(frq_name, '.');
+		if (NULL != extension) *extension = '_';
+		strcat(frq_name, ".frq");
+		fp = fopen(frq_name, "rb");
+	}
+	if (NULL == fp) return 0;
+	fclose(fp);
+	return 1;
+}
+
+// The FREQ0003 layout and amplitude calculation was adapted from OpenUtau
+// OpenUtau is Copyright (c) StAkira and licensed under the MIT License
+// Thank you StAkira for the awesome OpenUtau! You're the best! <3
+int writeUTAUfrq(double wave[], int sample_count, int sample_rate,
+	char* input_name)
+{
+	const int pitch_step = 256;
+	double frame_period = Sample2Time(pitch_step, sample_rate);
+	int frame_count = GetSamplesForDIO(sample_rate, sample_count, frame_period);
+	double* time_axis = (double*)malloc(frame_count * sizeof(double));
+	double* f0 = (double*)malloc(frame_count * sizeof(double));
+	double* refined_f0 = (double*)malloc(frame_count * sizeof(double));
+	if (!time_axis || !f0 || !refined_f0)
+	{
+		if (time_axis) free(time_axis);
+		if (f0) free(f0);
+		if (refined_f0) free(refined_f0);
+		fprintf(stderr, "Unable to allocate memory for .frq generation.\n");
+		return EXIT_FAILURE;
+	}
+
+	DioWithFramePeriod(wave, sample_count, sample_rate, frame_period,
+		time_axis, f0, 0);
+	StoneMask(wave, sample_count, sample_rate, time_axis, f0,
+		frame_count, refined_f0);
+
+	double avg_f0 = 0.0;
+	int voiced_count = 0;
+	for (int i = 0; i < frame_count; i++)
+	{
+		int invalid_class = _fpclass(refined_f0[i]) & 0x0087;
+		if (invalid_class != 0) refined_f0[i] = 0.0;
+		if (refined_f0[i] > 0.0)
+		{
+			avg_f0 += refined_f0[i];
+			voiced_count++;
+		}
+	}
+	if (voiced_count > 0) avg_f0 /= voiced_count;
+
+	char frq_name[512];
+	strcpy(frq_name, input_name);
+	char* extension = strrchr(frq_name, '.');
+	if (NULL != extension) *extension = '_';
+	strcat(frq_name, ".frq");
+
+	printf("write .frq");
+	FILE* fp = fopen(frq_name, "wb");
+	if (NULL == fp)
+	{
+		free(time_axis);
+		free(f0);
+		free(refined_f0);
+		fprintf(stderr, "Unable to write %s.\n", frq_name);
+		return EXIT_FAILURE;
+	}
+
+	fwrite("FREQ0003", 1, 8, fp);
+	fwrite(&pitch_step, sizeof(int), 1, fp);
+	fwrite(&avg_f0, sizeof(double), 1, fp);
+	int reserved = 0;
+	for (int i = 0; i < 4; i++)
+		fwrite(&reserved, sizeof(int), 1, fp);
+	fwrite(&frame_count, sizeof(int), 1, fp);
+	for (int i = 0; i < frame_count; i++)
+	{
+		fwrite(&refined_f0[i], sizeof(double), 1, fp);
+		double amp = 0.0;
+		int start = i * pitch_step;
+		int end = min(start + pitch_step, sample_count);
+		for (int j = start; j < end; j++)
+			amp += fabs(wave[j]);
+		if (start < end) amp = amp * 32768.0 / (end - start);
+		fwrite(&amp, sizeof(double), 1, fp);
+	}
+	fclose(fp);
+	printf("\n");
+
+	free(time_axis);
+	free(f0);
+	free(refined_f0);
+	return 0;
+}
+
 double getUTAUfrq(char* input_name, int frame_count, double sample_rate, double frame_period,
 	double* f0)
 {
@@ -365,7 +468,6 @@ double getavgUTAUfrq(char* input_name)
 		fp = fopen(frq_name, "rb");
 		if (NULL == fp) {
 			printf("There is no UTAU frequency file.\n");
-			printf("Please generate .frq files using resampler.exe or fresamp. \n");
 			return 0.0;
 		}
 	}
@@ -822,8 +924,17 @@ int getDIOParam(double wave[], int sample_count, int sample_rate,
 	double* f0 = (double*)malloc(frame_count * sizeof(double));
 	double* utau_f0 = (double*)malloc(frame_count * sizeof(double));
 	double* refined_f0 = (double*)malloc(frame_count * sizeof(double));
-	if (time_axis && f0)
+	if (time_axis && f0 && utau_f0 && refined_f0)
 	{
+		if (!hasUTAUfrq(input_name))
+		{
+			printf("There is no UTAU frequency file. Generating one now.\n");
+			if (writeUTAUfrq(wave, sample_count, sample_rate, input_name) != 0)
+			{
+				fprintf(stderr, "Error: Failed to create a .frq file.\n");
+				exit(-60);
+			}
+		}
 		utau_avg_f0 = getUTAUfrq(input_name, frame_count, sample_rate,
 			FRAMEPERIOD, utau_f0);
 		if (utau_avg_f0 == 0.0)
@@ -1996,4 +2107,3 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
-

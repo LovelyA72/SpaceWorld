@@ -6,14 +6,14 @@ SpaceWorld4U(SW4U or SpaceWorld) is a OpenUTAU/UTAU resampler.It takes a short W
 
 SW4U's signal processing is based on the WORLD vocoder. This repository packages the vocoder and the resampler in one C++ executable. No need to mess with external libraries. (You're welcome)
 
-> KSR here! You gotta generate the .frq file manually using WorldLine (OpenUTAU built-in resampler) etc. SW4U not yet supports .frq generation. Lovely said he is working on it though!
+> KSR here! If the input doesn't have a `.frq` file yet, SW4U generates one automatically before running the rest of the analysis.
 
 ## How it works
 
 Most SW4U behavior is in `main.cpp`. A normal run follows these steps:
 
 1. Look beside the input audio file for cached WORLD analysis data.
-2. If the cache is missing, invalid, or the `R` flag is present, read the input audio and its UTAU `.frq` frequency file.
+2. If the cache is missing, invalid, or the `R` flag is present, read the input audio and its UTAU `.frq` frequency file. If neither supported `.frq` name exists, generate one first.
 3. Analyze the voice:
    - DIO estimates the fundamental frequency (F0).
    - data from the UTAU `.frq` file repairs large DIO errors.
@@ -140,7 +140,8 @@ Example:
 .\x64\Release\SpaceWorld_win64.exe input.wav output.wav C4 100 "g-10B60" 0 500 100 0 100 100
 ```
 
-This example assumes that a compatible UTAU frequency file exists for `input.wav` if valid SpaceWorld analysis caches do not already exist.
+If compatible analysis caches and a UTAU frequency file are both missing,
+SpaceWorld generates the frequency file before rendering.
 
 > KSR here, again! Capital G is recognized but doesn’t actually do anything yet. (You don't want me, such a cute lady, to growl! Don't ya?) Lowercase gN is the working timbre flag, so mind the capitalization!
 
@@ -161,12 +162,15 @@ The writer always stores mono 16-bit sample values. However, it currently puts t
 
 ### UTAU frequency file
 
-A `.frq` file is required when analysis must be generated. The reader accepts version `FREQ0003` and looks for these names, in order:
+The reader accepts version `FREQ0003` and looks for these names, in order:
 
 1. the full input name plus `.frq`, for example `voice.wav.frq`
 2. the input extension changed to an underscore plus `.frq`, for example `voice_wav.frq`
 
-If neither file is found, the program exits with code `-60`.
+If neither file is found, SpaceWorld analyzes the audio and writes the second
+form, such as `voice_wav.frq`. An existing but invalid `.frq` is not
+overwritten. If generation or subsequent loading fails, the program exits
+with code `-60`.
 
 ### WORLD analysis cache
 
@@ -195,8 +199,8 @@ There is currently no automated test suite. CI only confirms that the Release so
 For a signal-processing change, a useful manual check is:
 
 1. Build Release x64.
-2. Run once with a known 16-bit voice sample and matching `.frq`.
-3. Confirm that `.dio`, `.ctspec`, and `.d4c` are created.
+2. Run once with a known 16-bit voice sample and no `.frq`.
+3. Confirm that `.frq`, `.dio`, `.ctspec`, and `.d4c` are created.
 4. Run the same command again and confirm that the cache is read.
 5. Run with `R` and confirm that analysis is rebuilt.
 6. Inspect the WAV duration, header, clipping, silence, pitch, and audible transitions around the fixed/stretch boundary.
@@ -208,7 +212,7 @@ When adding automated tests, small tests for note parsing, pitch-bend decoding, 
 
 - `main.cpp` is almost 2,000 lines and owns most of the application logic. Small, pure helper functions are the safest first extraction targets.
 - Memory management mixes `malloc/free` and `new[]`; some paths do not use a matching deallocator. Treat memory-lifetime changes carefully and use runtime checking when possible.
-- Many errors return process code `0`, while a missing `.frq` calls `exit(-60)`. Do not assume that `0` always means success until error handling is cleaned up.
+- Many errors return process code `0`, while a failed `.frq` generation or load calls `exit(-60)`. Do not assume that `0` always means success until error handling is cleaned up.
 - File names are copied into fixed-size C buffers. Long paths and unchecked writes are a known risk.
 - Some comments are Japanese, and some older comments have damaged character encoding. Check the code itself before relying on an unclear comment.
 - New `.cpp` or `.h` files must be added to `SpaceWorld.vcxproj`; simply placing them under `src` does not make Visual Studio compile them.

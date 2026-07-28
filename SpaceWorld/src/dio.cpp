@@ -639,10 +639,10 @@ int GetSamplesForDIO(int fs, int x_length, double frame_period) {
     return static_cast<int>(1000.0 * x_length / fs / frame_period) + 1;
 }
 
-void Dio(const double* x, int x_length, int fs, double* temporal_positions, double* f0, int flag_M) {
+void DioWithFramePeriod(const double* x, int x_length, int fs,
+    double frame_period, double* temporal_positions, double* f0, int flag_M) {
     double f0Floor = 80;
     double f0Ceil = 640;
-    double frame_period = (1000.0 * 256 / 44100);
     /*
     if(flag_M != 0)
     {
@@ -653,6 +653,12 @@ void Dio(const double* x, int x_length, int fs, double* temporal_positions, doub
     DioGeneralBody(x, x_length, fs, frame_period, f0Floor,
         f0Ceil, 2.0, 1,
         0.1, temporal_positions, f0);
+}
+
+void Dio(const double* x, int x_length, int fs, double* temporal_positions,
+    double* f0, int flag_M) {
+    DioWithFramePeriod(x, x_length, fs, 1000.0 * 256 / 44100,
+        temporal_positions, f0, flag_M);
 }
 
 void InitializeDioOption(DioOption* option) {
