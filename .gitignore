@@ -388,6 +388,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Generative Agent files
-.codex
-Agent
+.codex/
+Agent/
 AGENT.md
