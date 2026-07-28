@@ -1,0 +1,54 @@
+expressions:
+  bre:
+    abbr: bre
+    default_value: 50
+    flag: B
+    is_flag: true
+    max: 100
+    min: 0
+    name: Breath
+    type: Numerical
+  bri:
+    abbr: bri
+    default_value: 0
+    flag: O
+    is_flag: true
+    max: 100
+    min: -100
+    name: Brightness
+    type: Numerical
+  fstr:
+    abbr: fstr
+    is_flag: true
+    options:
+    - ''
+    - e
+    name: Force Stretch
+    type: Options
+  gen:
+    abbr: gen
+    default_value: 0
+    flag: g
+    is_flag: true
+    max: 100
+    min: -100
+    name: Gender
+    type: Numerical
+  pit:
+    abbr: pit
+    default_value: 0
+    flag: t
+    is_flag: true
+    max: 1200
+    min: -1200
+    name: Pitch Deviation
+    type: Numerical
+  pkcp:
+    abbr: pkcp
+    default_value: 86
+    flag: P
+    is_flag: true
+    max: 100
+    min: 0
+    name: Peak Compressor
+    type: Numerical
