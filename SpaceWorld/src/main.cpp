@@ -36,7 +36,7 @@
 #include "world/d4c.h"
 #include "world/synthesis.h"
 #include "getWorldValues77.h"
-#include "matlabmyfunctions.h"
+#include "utils/interpolation.h"
 #include "audio_io.h"
 
 #include <math.h>

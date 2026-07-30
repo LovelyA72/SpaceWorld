@@ -1,31 +1,5 @@
-//------------------------------------------------------------------------------------
-// Matlab functions
-//      These are my own functions that I made
-#ifndef WORLD_MATLAB_MY_FUNCTIONS_H_
-#define WORLD_MATLAB_MY_FUNCTIONS_H_
-
-
-// ハミング窓
-void Hamming_window(double *w, int N);
-
-// ハニング窓
-void Hanning_window(double *w, int N);
-
-// ナットール窓
-void Nuttall_window(double *w, int N);
-
-// 配列tを元に配列cを作るsinc関数
-void sinc(double *t, int tNum, double *c);
-
-// Comb Sort in ascending order
-// you must read http://en.wikipedia.org/wiki/Combsort
-void combsort_ascend(double *x, int sNum);
-
-// Comb Sort in descending order
-void combsort_descend(double *x, int sNum);
-
-// Gets the median
-double median(double *x, int sNum);
+#ifndef SPACEWORLD_UTILS_INTERPOLATION_H_
+#define SPACEWORLD_UTILS_INTERPOLATION_H_
 
 //------------------------------------------------------------------------------------
 // interpolation
@@ -100,4 +74,4 @@ void itrp1Qnatural_clip(double offset, double *y, int inNum, double stride,
 void itrp1QCatmull_Rom_clip(double offset, double *y, int inNum, double stride,
                             int outNum, double *yo);
 
-#endif  // WORLD_MATLAB_MY_FUNCTIONS_H_
+#endif  // SPACEWORLD_UTILS_INTERPOLATION_H_

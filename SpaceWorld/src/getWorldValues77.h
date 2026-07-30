@@ -44,8 +44,8 @@ int GetFFTSizeForStar(double fs);
 //-----------------------------------------------------------------------------
 //      inline functions
 //
-//              �}�N�����͏d�����ǂ�A���x�ቺ�͊����Ȃ��̂ŁA�[��������悤
-//              ������̕����\�[�X�̌��ʂ���ǂ��Ȃ�Ǝv���܂�
+//              Inline functions avoid macro double evaluation without adding
+//              measurable overhead in optimized builds.
 //
 //-----------------------------------------------------------------------------
 // These four functions are simple max() and min() function
@@ -72,10 +72,7 @@ inline double fmin(double x, double y) {
 }
 
 //-----------------------------------------------------------------------------
-// ���̃v���O�����́A�P�T���v���͎��Ԃ��L���Ȃ��Ƃ݂Ȃ��Ă��܂�
-//
-// this program considered, one sample does not occupy one time interval
-//
+// These conversions treat a single sample as a point with no duration.
 
 //-----------------------------------------------------------------------------
 // Convert number of samples to length of the sample.
@@ -96,10 +93,7 @@ inline double SampleNum2SampleLen(double sample) {
 } // Frame2Sample
 
 //-----------------------------------------------------------------------------
-// �ȉ��̃v���O�����́A�P�T���v����1��Ԃ̎��Ԃ��L����Ƃ݂Ȃ��Ă��܂�
-//
-// following program considered, one sample occupies one time interval
-//
+// The following conversions treat each sample as occupying one sample period.
 
 //-----------------------------------------------------------------------------
 // Convert number of frames to number of samples.

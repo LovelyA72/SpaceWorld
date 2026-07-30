@@ -156,8 +156,10 @@ rename "$(TargetPath)" "SpaceWorld_win64.exe"</Command>
     <ClCompile Include=".\src\fft.cpp" />
     <ClCompile Include=".\src\getWorldValues77.cpp" />
     <ClCompile Include=".\src\main.cpp" />
-    <ClCompile Include=".\src\matlabfunctions.cpp" />
-    <ClCompile Include=".\src\matlabmyfunctions.cpp" />
+    <ClCompile Include=".\src\fft\convolution.cpp" />
+    <ClCompile Include=".\src\utils\interpolation.cpp" />
+    <ClCompile Include=".\src\utils\numeric_signal_processing.cpp" />
+    <ClCompile Include=".\src\utils\window_functions.cpp" />
     <ClCompile Include=".\src\star.cpp" />
     <ClCompile Include=".\src\stonemask.cpp" />
     <ClCompile Include=".\src\synthesis.cpp" />
@@ -165,7 +167,8 @@ rename "$(TargetPath)" "SpaceWorld_win64.exe"</Command>
   <ItemGroup>
     <ClInclude Include=".\src\audio_io.h" />
     <ClInclude Include=".\src\getWorldValues77.h" />
-    <ClInclude Include=".\src\matlabmyfunctions.h" />
+    <ClInclude Include=".\src\utils\interpolation.h" />
+    <ClInclude Include=".\src\utils\window_functions.h" />
     <ClInclude Include=".\src\world.h" />
     <ClInclude Include=".\src\world\cheaptrick.h" />
     <ClInclude Include=".\src\world\common.h" />

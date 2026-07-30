@@ -22,7 +22,7 @@ namespace {
 } // end of namespace
 
 
-// 事前にユーザがメモリ確保できるように、F0軌跡の要素数を得る
+// Calculate the DIO frame count so callers can allocate F0 and time-axis buffers.
 // fs                   : Sampling frequency [Hz]
 // sNum                 : Number of input signal [sample].
 // framePeriod          : Frame shift [msec]
@@ -41,11 +41,9 @@ void GetTimeAxisForDIO(double framePeriod, double *timeAxis, int fNum)
 } // GetTimeAxisForDIO
 
 
-// サンプリング周波数から必要なFFT長を計算
-// 本当は合成音声の最低F0も必要だけど無視
-// MAX_FFT_LENGTHでひっかけるようにした
-// We can get the length of FFT.
-// Essentially, it also depends on the lowest F0 of the input signal.
+// Calculate the FFT size required for the current sampling frequency.
+// The required size also depends on the lowest expected F0.
+// Return zero when the required size exceeds MAX_FFT_LENGTH.
 int GetFFTSizeForStar(double fs)
 {
   int fftl = GetSuitableFFTSize(static_cast<int>(3.0 *

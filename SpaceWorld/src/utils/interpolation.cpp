@@ -11,8 +11,8 @@
 #endif
 #include <math.h>
 
-#include "world.h"
-#include "matlabmyfunctions.h"
+#include "../world.h"
+#include "interpolation.h"
 
 namespace {
 
@@ -663,126 +663,6 @@ void calc_fast_cubic_intrp_clip(double offset, double *y, int inNum,
 }  // namespace
 
 
-
-
-// ハミング窓
-void Hamming_window(double *w, int N)
-{
-  if (0 == N % 2) { /* Nが偶数のとき */
-    for (int i = 0; i < N; i++)
-      w[i] = 0.54 - 0.46 * cos(2.0 * M_PI * (i + 1.0) / (N+1));
-  } else { /* Nが奇数のとき */
-    for (int i = 0; i < N; i++)
-      w[i] = 0.54 - 0.46 * cos(2.0 * M_PI * (i + 0.5) / N);
-  }
-} // Hamming_window
-
-// ハニング窓
-void Hanning_window(double *w, int N)
-{
-  if (0 == N % 2) { /* Nが偶数のとき */
-    for (int i = 0; i < N; i++)
-      w[i] = 0.5 - 0.5 * cos(2.0 * M_PI * (i + 1.0) / (N+1));
-  } else { /* Nが奇数のとき */
-    for (int i = 0; i < N; i++)
-      w[i] = 0.5 - 0.5 * cos(2.0 * M_PI * (i + 0.5) / N);
-  }
-} // Hanning_window
-
-// ナットール窓
-void Nuttall_window(double *w, int N)
-{
-  if (0 == N % 2) { /* Nが偶数のとき */
-    for (int i = 0; i < N; i++) {
-      double tmp = (M_PI * (i+1)) / (N+1);
-      w[i] = 0.355768 - 0.487396 * cos(2.0 * tmp)
-                      + 0.144232 * cos(4.0 * tmp)
-                      - 0.012604 * cos(6.0 * tmp);
-    }
-  } else { /* Nが奇数のとき */
-    for (int i = 0; i < N; i++) {
-      double tmp = (M_PI * (i+0.5)) / N;
-      w[i] = 0.355768 - 0.487396 * cos(2.0 * tmp)
-                      + 0.144232 * cos(4.0 * tmp)
-                      - 0.012604 * cos(6.0 * tmp);
-    }
-  }
-}  // Nuttall_window
-
-// 配列渡しのsinc関数
-void sinc(double *t, int tNum, double *c)
-{
-  for (int i = 0; i < tNum; i++) {
-    if (0.0 == t[i]) {
-      c[i] = 1.0;
-    } else {
-      double tmp = M_PI * t[i];
-      c[i] = sin(tmp) / tmp;
-    }
-  }
-} // sinc
-
-// 昇順のコムソート qsort使うのが良いかもなんだが、使いこなせないのだよな
-void combsort_ascend(double *x, int sNum)
-{
-  int gap = sNum;
-  bool swapped = false;
-  do {
-    // With this factor, Combsort11 is not required.
-    // you must read http://en.wikipedia.org/wiki/Combsort
-    gap = static_cast<int>(gap / 1.247330950103979);
-    if (gap < 1) gap = 1;
-    swapped = false;
-
-    for (int i = 0; gap + i < sNum; i++) {
-      if (x[gap+i] < x[i]) { // 小さければ前に持ってくる
-        double tmp = x[i];
-        x[i] = x[gap+i];
-        x[gap+i] = tmp;
-        swapped = true;
-      }
-    }
-  } while (swapped || (1 < gap));
-} // combsort_ascend
-
-// 降順のコムソート
-void combsort_descend(double *x, int sNum)
-{
-  int gap = sNum;
-  bool swapped = false;
-  do {
-    gap = static_cast<int>(gap / 1.247330950103979);
-    if (gap < 1) gap = 1;
-    swapped = false;
-
-    for (int i = 0; gap + i < sNum; i++) {
-      if (x[i] < x[gap + i]) { // 大きければ前に持ってくる
-        double tmp = x[i];
-        x[i] = x[gap + i];
-        x[gap + i] = tmp;
-        swapped = true;
-      }
-    }
-  } while (swapped || (1 < gap));
-} // combsort_ascend
-
-// 中央値を返す
-double median(double *x, int sNum)
-{
-  // ソートする
-  combsort_ascend(x, sNum);
-
-  // 中央値を計算する
-  double result;
-  if (0 == sNum % 2) { // 偶数
-    sNum /= 2;
-    result = (x[sNum] + x[sNum-1]) * 0.5; // 中央の二つの平均
-  } else { // 奇数
-    sNum /= 2;
-    result = x[sNum]; // 中央、ぴったりど真ん中
-  }
-  return result;
-} // median
 
 
 /**********************************************************
