@@ -1,12 +1,10 @@
 # SpaceWorld4U Docs
 
-> Hey there! This is **Kashouryo** (何小綾), Lovely's lab assistant, and you can call me Shouryo, or just **KSR**. I’m certainly not a singer myself (But I am working on it... hopefully!), but I’ll be guiding you through this document. It's sooooo nice to meet you! :ksr_suki:
+> Hey there! This is **Kashouryo** (何小綾), Lovely's lab assistant, and you can call me Shouryo, or just **KSR**. I’m certainly not a singer myself (I am working on it... hopefully!), but I’ll be guiding you through this document. It's sooooo nice to meet you! :ksr_suki:
 
 SpaceWorld4U(SW4U or SpaceWorld) is a OpenUTAU/UTAU resampler.It takes a short WAV or AIFF recording, changes its pitch and length, and writes a mono WAV file.
 
 SW4U's signal processing is based on the WORLD vocoder. This repository packages the vocoder and the resampler in one C++ executable. No need to mess with external libraries. (You're welcome)
-
-> KSR here! If the input doesn't have a `.frq` file yet, SW4U generates one automatically before running the rest of the analysis.
 
 ## How it works
 
